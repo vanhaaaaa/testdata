@@ -1,45 +1,38 @@
-package com.example.back_end.model;
+package com.example.back_end.dto;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@Entity
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Table(name = "users")
-public class user extends BaseEntity {
-    @Id
-       @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class UserDto {
+    
      @NotBlank(message = "Tên không được để trống")
-
+    @Size(min = 2, max = 50, message = "Tên phải có từ 2 đến 50 ký tự")
     private String username;
 
     @NotBlank
-    @Size(min = 6, max = 100)
+    @Size(min = 6, max = 100, message = "Password phải là một password")
     private String password;
-
       @Past(message = "Ngày tháng năm sinh phải là một ngày trong quá khứ")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+ @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngay_sinh;
 
+    @Email(message = "Email phải là một email")
     private String email;
+    @NotBlank(message = "Địa chiề phải là một điềa chiề")
     private String address;
 
     private String role;
